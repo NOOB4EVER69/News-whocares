@@ -44,6 +44,7 @@
         .news-item {
             border-bottom: 1px solid #bbb;
             padding: 20px 0;
+            cursor: pointer;
         }
         .news-item h2 {
             color: #2c3e50;
@@ -62,6 +63,36 @@
             margin-top: 20px;
         }
         .hidden { display: none; }
+        .ad-container {
+            background: #f39c12;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            margin: 10% auto;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: #e74c3c;
+        }
         @media (max-width: 600px) {
             header {
                 font-size: 20px;
@@ -69,23 +100,15 @@
             nav a {
                 font-size: 16px;
             }
+            .modal-content {
+                width: 80%;
+            }
         }
     </style>
-    <script>
-        function filterNews(category) {
-            let items = document.querySelectorAll('.news-item');
-            items.forEach(item => {
-                if (category === 'All' || item.getAttribute('data-category') === category) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        }
-    </script>
+
 </head>
-<body>
-    <header>Funny News</header>
+<body onload="rotateAd()">
+    <header>News? Who Cares</header>
     <nav>
         <a onclick="filterNews('All')">Home</a>
         <a onclick="filterNews('World')">World</a>
@@ -94,26 +117,185 @@
         <a onclick="filterNews('Entertainment')">Entertainment</a>
         <a onclick="filterNews('Random')">Random</a>
     </nav>
+    <div class="ad-container" id="ad"></div>
+
+
     <div class="container">
-        <div class="news-item" data-category="Random">
+
+        <div class="news-item" data-category="Random" onclick="openModal('Breaking: Cat Steals a Hotdog', 'A sneaky cat in downtown Cairo has managed to steal a vendor\'s hotdog, causing chaos in the streets.')">
             <h2>Breaking: Cat Successfully Steals a Hotdog</h2>
             <img src="https://cdn.mos.cms.futurecdn.net/cqRdVrvnrf4R5wjkvWMvna.jpg" alt="Cat stealing a hotdog">
-            <p>A sneaky cat in downtown Cairo has managed to steal a vendor's hotdog, causing chaos in the streets.</p>
             <small>Category: Random</small>
         </div>
-        <div class="news-item" data-category="Comedy">
+
+
+        <div class="news-item" data-category="World" onclick="openModal('Man Drops Phone on Face', 'Local man insists the phone slipping from his hand and hitting his nose means he should stop scrolling.')">
             <h2>Man Drops Phone on Face, Claims It's a Sign from the Universe</h2>
-            <img src="https://cdn.mos.cms.futurecdn.net/cqRdVrvnrf4R5wjkvWMvna.jpg" alt="Man dropping phone on face">
-            <p>Local man insists the phone slipping from his hand and hitting his nose means he should stop scrolling.</p>
-            <small>Category: Comedy</small>
+            <img src="https://th.bing.com/th/id/OIP.VSQtRGbjbHUJq7asl4pn5QHaE8?rs=1&pid=ImgDetMain" alt="Man dropping phone on face">
+            <small>Category: World</small>
         </div>
-        <div class="news-item" data-category="Random">
-            <h2>Breaking News: Someone Just Said "Hello"</h2>
-            <img src="https://cdn.mos.cms.futurecdn.net/cqRdVrvnrf4R5wjkvWMvna.jpg" alt="Text message saying Hello">
-            <p>In a shocking turn of events, a man greeted his friend with a casual "Hello" today.</p>
-            <small>Category: Random</small>
+
+        <div class="news-item" data-category="World" onclick="openModal('A groundbreaking scientific discovery has confirmed what many had suspected for centuries: the sun is still very, very hot. Researchers spent years measuring its temperature, only to conclude that it is, indeed, still a giant ball of fire in the sky. Experts were particularly shocked because, at some point, they thought it might have cooled down a bit, but nope—still scorching.')"> 
+            <h2>Scientists Discover That the Sun is Still Hot</h2> 
+            <img src="https://th.bing.com/th/id/R.8081a904cb6de8724464ae022ac958bc?rik=EWY2NLc%2fAQNEuw&pid=ImgRaw&r=0" alt="Blazing hot sun in the sky"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="World" onclick="openModal('In what’s being hailed as one of the greatest personal achievements of modern times, a local man has done the impossible: he finished an entire ChapStick without losing it. Many doubted it was even possible, as ChapStick tubes are known for vanishing into thin air. “I kept it in my pocket at all times,” he explained. Skeptics believe he may be hiding additional ChapSticks somewhere, just in case.')"> 
+            <h2>Nation Shocked as Man Finishes ChapStick Without Losing It</h2> 
+            <img src="https://th.bing.com/th/id/R.0f29f452e03209bfe02aafb0e55e3d47?rik=%2bFvsvouL9eniPg&pid=ImgRaw&r=0&sres=1&sresct=1" alt="A tube of ChapStick that miraculously still exists"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="World" onclick="openModal('Despite online rumors suggesting that the moon had disappeared overnight, astronomers have officially confirmed that it is, in fact, still up there. This revelation comes after a viral TikTok claimed that “the government took the moon away” to save on electricity costs. Scientists are urging people to go outside and look up before spreading misinformation.')"> 
+            <h2>Experts Confirm: The Moon is Still There</h2> 
+            <img src="https://th.bing.com/th/id/OIP.m4b057sjhIgx454hTDUX1gHaFA?rs=1&pid=ImgDetMain" alt="Moon glowing in the night sky"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="World" onclick="openModal('A farmer in a rural town has grown increasingly suspicious of his herd of cows after noticing them staring at him... a lot. “They look at me like they know something,” he said. Experts suggest the cows may have simply been curious or waiting for food, but others are convinced they’re planning something big.')"> 
+            <h2>Cows Spotted Staring at Farmer Like They Know Something</h2> 
+            <img src="https://th.bing.com/th/id/OIP.1Yi-oL16wYIQIFWCESyCQAHaD_?rs=1&pid=ImgDetMain" alt="Cows staring suspiciously at a farmer"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="World" onclick="openModal('A local man, desperate for some extra cash, attempted to bribe an ATM by slipping a $5 bill into the receipt slot. When the machine did not cooperate, he tried whispering compliments to it. After 10 minutes, he gave up and walked away, claiming that “the government has the ATMs brainwashed.”')"> 
+            <h2>Man Tries to Bribe ATM for More Money, Gets Declined</h2> 
+            <img src="https://i.tribune.com.pk/media/images/2046925-atmthief-1567331053/2046925-atmthief-1567331053.png" alt="ATM stubbornly refusing to give extra cash"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="Sports" onclick="openModal('After hours of determination, sweat, and frustration, a golfer refused to leave the course until he found his lost ball. After tearing up the grass, climbing trees, and even interrogating a squirrel, he finally checked his pocket… where the ball had been the whole time. His reaction? “Well, that’s golf for ya.”')"> 
+            <h2>Golfer Spends 12 Hours Searching for Lost Ball, Finds It in His Pocket</h2> 
+            <img src="https://th.bing.com/th/id/R.ae76293351c4aef0d0b6a0227b25b25a?rik=aNyP%2bSTwL6XPcg&pid=ImgRaw&r=0" alt="Golfer looking frustrated on the course"> 
+            <small>Category: Sports</small> 
+        </div>
+        
+        <div class="news-item" data-category="Sports" onclick="openModal('A rookie basketball player made history by scoring in the wrong hoop and then celebrating like he had just won the championship. His team stood in stunned silence as he ran around the court pumping his fists. His excuse? “A point is a point.”')"> 
+            <h2>Basketball Player Shoots Own Team’s Basket, Celebrates</h2> 
+            <img src="https://th.bing.com/th/id/OIP.cOIGKoxBK9Lu6idEOUEm9wHaDt?rs=1&pid=ImgDetMain" alt="Basketball player celebrating the wrong way"> 
+            <small>Category: Sports</small> 
+        </div>
+        
+        <div class="news-item" data-category="Tech" onclick="openModal('A man nearly broke the internet when he decided to Google ‘Google.’ According to IT experts, this created a paradox that briefly sent the entire digital world into chaos. While Google engineers managed to restore functionality, they have politely asked users not to try this again. The man in question? He claims he was just “curious.”')"> 
+            <h2>Man Tries to Google Google, Breaks Internet for Five Minutes</h2> 
+            <img src="https://th.bing.com/th/id/R.8371139c636bd626d330eba2ee3e4f19?rik=9FJYYzei8bYEnw&riu=http%3a%2f%2fimages.csmonitor.com%2fcsmarchives%2f2011%2f09%2f0927-google-google.jpg%3falias%3dstandard_900x600&ehk=EEm42gDaaaKGeYMoFxtcfOx3OvKn3IfcNkGbrbptwJE%3d&risl=&pid=ImgRaw&r=0" alt="A confused person looking at a Google search page"> 
+            <small>Category: Tech</small> 
+        </div>
+        
+        <div class="news-item" data-category="Tech" onclick="openModal('A revolutionary new smart fridge is so intelligent that it has started refusing to open for its owner when he tries to grab junk food. “It’s for your own good,” the fridge allegedly told him via a built-in AI voice assistant. The owner, furious, is now considering unplugging it. The fridge, however, has threatened to call customer support.')"> 
+            <h2>Smart Fridge Now Smarter Than Its Owner, Refuses to Open for Junk Food</h2> 
+            <img src="https://geeks2u-wp.s3.amazonaws.com/wp-content/uploads/2022/07/Smart-Fridge-Hero-1024x576.jpg" alt="Smart fridge glowing ominously"> 
+            <small>Category: Tech</small> 
+        </div>
+        
+        <div class="news-item" data-category="Entertainment" onclick="openModal('A new horror movie has been declared “too terrifying” after audience members walked out before it even began. According to reports, the opening music alone was enough to send shivers down people’s spines. The director insists that it’s all part of the experience. Theaters have now installed extra emergency exits—just in case.')"> 
+            <h2>New Horror Movie So Scary, Audience Leaves Before It Even Starts</h2> 
+            <img src="https://th.bing.com/th/id/R.bc28913c30315f570edcab57968df70e?rik=GJEQIhoTJyOzug&pid=ImgRaw&r=0" alt="Empty theater with a horror movie poster"> 
+            <small>Category: Entertainment</small> 
+        </div>
+        
+        <div class="news-item" data-category="Entertainment" onclick="openModal('A famous musician’s latest song has been met with widespread praise... but there’s just one problem: it sounds exactly like their last song. When asked about it, the artist simply shrugged and said, “If it ain’t broke, don’t fix it.” Fans are streaming it anyway.')"> 
+            <h2>Musician Releases New Song, Sounds Exactly Like Their Old Song</h2> 
+            <img src="https://th.bing.com/th/id/OIP.JVC7c4ewzIeKRT54Nhr4SgHaFj?rs=1&pid=ImgDetMain" alt="A musician performing on stage"> 
+            <small>Category: Entertainment</small> 
+        </div>
+        
+        <div class="news-item" data-category="Random" onclick="openModal('In what might be the most ironic event of the decade, a man watching a movie alone caught himself whispering a comment about the film. Without thinking, he immediately shushed… himself. Experts are calling it “a fascinating psychological moment,” while the man insists he simply “got too into the movie.”')"> 
+            <h2>Guy Watches a Movie Alone, Still Shushes Himself for Talking</h2> 
+            <img src="https://th.bing.com/th/id/R.59b527c8a93879f92a1e71b241621bc1?rik=mcZ1BTZojl0eQQ&pid=ImgRaw&r=0" alt="Person watching a movie alone with popcorn"> 
+            <small>Category: Random</small> 
+        </div>
+
+        
+        <div class="news-item" data-category="World" onclick="openModal('Scientists have officially given up on trying to teach pigeons manners after decades of failed attempts. The birds continue to walk in front of people, steal food, and generally ignore human etiquette. “They just don’t care,” one researcher sighed.')"> 
+            <h2>Scientists Give Up on Teaching Pigeons Manners</h2> 
+            <img src="https://th.bing.com/th/id/R.7fdb6d80a17d5090aac8161802e05ab0?rik=LlMXoOeG%2fKU3VQ&pid=ImgRaw&r=0" alt="Pigeons causing chaos in the park"> 
+            <small>Category: World</small> 
+        </div>
+        
+        <div class="news-item" data-category="Sports" onclick="openModal('A soccer team accidentally celebrated their victory too early, not realizing there were still five minutes left in the match. Their opponents quickly took advantage of the confusion and scored twice, leading to an embarrassing loss. The team has since implemented a “double-check the clock” policy.')"> 
+            <h2>Soccer Team Celebrates Early, Loses Match in Last Five Minutes</h2> 
+            <img src="https://getfootballnewsspain.com/wp-content/uploads/2025/02/real-madrid-cf-v-manchester-city-uefa-champions-league-2024-25-league-knockout-play-off-second-leg.jpg" alt="Team celebrating too soon on the field"> 
+            <small>Category: Sports</small> 
+        </div>
+        
+        <div class="news-item" data-category="Tech" onclick="openModal('A man who never clears his browser tabs has officially broken the world record with 3,247 open tabs on his phone. His device, somehow still functional, has become an object of both horror and admiration among tech enthusiasts.')"> 
+            <h2>Man Breaks Record for Most Open Browser Tabs</h2> 
+            <img src="https://th.bing.com/th/id/OIP.A2e_fsdhI2d8tRbSDil-QgHaEK?rs=1&pid=ImgDetMain" alt="Phone screen cluttered with too many tabs"> 
+            <small>Category: Tech</small> 
+        </div>
+        
+        <div class="news-item" data-category="Entertainment" onclick="openModal('A famous actor has announced that their next movie role will be playing a sentient potato. Fans are divided, with some calling it “groundbreaking” and others wondering if it’s just a joke. The actor insists it’s the role of a lifetime.')"> 
+            <h2>Actor to Star in New Movie as a Sentient Potato</h2> 
+            <img src="https://th.bing.com/th/id/OIP.aXe66CKho3xmomf69gCZIAHaFj?rs=1&pid=ImgDetMain" alt="Actor posing next to a potato"> 
+            <small>Category: Entertainment</small> 
+        </div>
+        
+        <div class="news-item" data-category="Random" onclick="openModal('A cat has reportedly figured out how to order treats online using its owner’s phone. The owner was baffled when packages of catnip and snacks started arriving at their doorstep. Experts are now looking into how deep feline intelligence really goes.')"> 
+            <h2>Cat Orders Treats Online, Owner Confused</h2> 
+            <img src="https://th.bing.com/th/id/OIP.j6fdY4ZUZpyhVrK_90L2TQHaKV?rs=1&pid=ImgDetMain" alt="Cat sitting next to an online shopping cart"> 
+            <small>Category: Random</small> 
+        </div>
+        
+        <div class="news-item" data-category="World" onclick="openModal('A group of conspiracy theorists spent a week in the woods trying to prove trees are secretly watching humans. After extensive research, they concluded that trees, in fact, just stand there and grow. The group has since disbanded.')"> 
+            <h2>Conspiracy Theorists Prove Trees Are Not Spying on Us</h2> 
+            <img src="https://th.bing.com/th/id/R.9656c452cc3407e14ab49ab10f763901?rik=qPLcoKckzDx0ig&pid=ImgRaw&r=0" alt="A group of people staring suspiciously at trees"> 
+            <small>Category: World</small> 
+        </div>
+                
+    </div>
+    
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2> 
+            <p id="modal-content"></p>
         </div>
     </div>
     <footer>© 2025 News? Who Cares. All rights reserved.</footer>
 </body>
+<script>
+    let ads = [
+        "Buy 1 Get 1 Free on Cat Food!",
+        "New Phone Case - 50% Off!",
+        "Try Our Latest Ice Cream Flavor!",
+        "Flash Sale: 20% Off All Electronics!","Buy 1 Get 1 Free on Cat Food!",
+        "New Phone Case - 50% Off!",
+        "Try Our Latest Ice Cream Flavor!",
+        "Flash Sale: 20% Off All Electronics!",
+        "Earn $1,000 daily by clicking this ad! (Not really)",
+        "Make millions working from home! (You won’t)",
+        "Exclusive diet pill removes all fat instantly! (Nope)",
+        "Guaranteed way to double your money overnight! (Sure...)",
+        "Secret method to become famous in 24 hours! (If only)",
+        "Lose weight just by breathing! (No science included)",
+        "Buy land on the moon today! (Not refundable)",
+        "Instant intelligence boost! (Tested on goldfish)"
+    ];
+    function rotateAd() {
+        let adElement = document.getElementById('ad');
+        let index = Math.floor(Math.random() * ads.length);
+        adElement.innerText = ads[index];
+    }
+    setInterval(rotateAd, 40000);
+    function filterNews(category) {
+        let items = document.querySelectorAll('.news-item');
+        items.forEach(item => {
+            if (category === 'All' || item.getAttribute('data-category') === category) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    }
+    function openModal(title, content) {
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-content').innerText = content;
+        document.getElementById('modal').style.display = 'block';
+    }
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+</script>
 </html>
